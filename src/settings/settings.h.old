@@ -1,0 +1,134 @@
+#ifndef SETTINGS_H_
+#define SETTINGS_H_
+
+#include <ESP8266WiFi.h>
+
+// CAPTEUR 
+#define CAPTEUR "02"         //Numero du capteur
+
+//Peripherique
+#define SCREEN
+#define DATALOGGER
+
+//Capteurs
+
+//Temperature
+#define SENSOR_SHT30
+//#define SENSOR_DHT12
+//#define SENSOR_DS18B20
+//#define SENSOR_BMP180
+//#define SENSOR_DHT11   // DHT 11
+//#define SENSOR_DHT22   // DHT 22  (AM2302), AM2321
+//#define SENSOR_DHT21   // DHT 21 (AM2301)
+
+
+//Light
+//#define SENSOR_BH1750
+
+#ifdef SENSOR_SHT30
+#define DATATEMP
+#define DATAHUMIDITY
+#endif
+
+#ifdef SENSOR_DHT12
+#define DATATEMP
+#define DATAHUMIDITY
+#endif
+
+#ifdef SENSOR_DHT11
+#define DATATEMP
+#define DATAHUMIDITY
+#endif
+
+#ifdef SENSOR_DHT21
+#define DATATEMP
+#define DATAHUMIDITY
+#endif
+
+#ifdef SENSOR_DHT22
+#define DATATEMP
+#define DATAHUMIDITY
+#endif
+
+#ifdef SENSOR_DS18B20
+#define DATATEMP
+#endif
+
+#ifdef SENSOR_BMP180
+#define DATATEMP
+#define DATAPRESSION
+#define ALTITUDE 380.0 // Altitude of SparkFun's HQ in Boulder, CO. in meters
+#endif
+
+//Capteur de lumière
+#ifdef SENSOR_BH1750
+#define DATALIGHT
+#endif
+
+#define TYPE_CAPTEURTEMP 1
+#define TYPE_CAPTEURHUMI 2
+#define TYPE_CAPTEURPRES 3
+#define TYPE_CAPTEURLIGH 4
+
+//Capteurs Tension / Ampere
+
+//Compensation 
+// fixe la compensation du capteur (à la compilation)
+#define COMPTEMP 0.00
+#define COMPHUMIDITY 0.00
+#define COMPLIGHT 0.00
+#define COMPPRESSURE 0.00
+//#define RESETCOMP  //Mise à jour de la memoire avec les compensations initiales
+
+//Mesures
+#define NB_MESURE 5       //Nombre de mesure avant affichage OLED (moyenne)
+#define COMPTEUR_MQTT 2   //Envoi tout les MQTT COMPTEUR_MQTT X NB_MESURE mesures
+
+// WIFI - MQTT Serveur
+#define SSID  "Livebox-23D2"
+#define PASSWORD "F76C6CA7A22666D2742F7E1D4F"
+/* this is the IP of PC/raspberry where you installed MQTT Server 
+on Wins use "ipconfig" 
+on Linux use "ifconfig" to get its IP address */
+#define MQTT_SERVER "194.199.192.212"
+//#define MQTT_SERVER "192.168.1.201"    //MQTT TEST
+
+//#define SSID "WIFI-MAINTENANCE"
+//#define PASSWORD "leti1999"
+//#define MQTT_SERVER "192.168.1.200"
+
+//#define IP_FIXE		//DHCP ou IP FIXE
+
+#ifdef IP_FIXE
+IPAddress ip(192, 168, 1, 30);
+IPAddress gateway(192, 168, 1, 1);
+IPAddress subnet(255, 255, 0, 0);
+IPAddress dns(8, 8, 8, 8);
+#endif
+
+// Login + password Mosquitto
+#define MQTT_USER "jeedom"  //s'il a été configuré sur Mosquitto
+#define MQTT_PASSWORD "jeedomensacf" //idem
+
+/* topics */
+#define TOPIC          "sensor/capteur"	//entete MQTT
+#define LED_TOPIC      "/led" /* 1=on, 0=off */
+#define TEMP_TOPIC     "/temperature"
+#define HYDRO_TOPIC    "/humidity"
+#define PRESSURE_TOPIC "/presure"
+#define LIGHT_TOPIC    "/light"
+#define IP_TOPIC       "/ip"
+#define TIME_TOPIC     "/time"
+
+#define COMPTEMP_TOPIC "/comptemp" // 0.00
+#define COMPHUMIDITY_TOPIC "/comphumidity" // 0.00
+#define COMPLIGHT_TOPIC "/complight" // 0.00
+#define COMPPRESURE_TOPIC "/comppressure" // 0.00
+#define TIMEZONE_TOPIC "/timezone" //
+
+// Time zone 
+// 2 pour l'heure d'été en france
+// 3 pour l'heure d'hiver
+#define TIMEZONE 2
+
+#endif
