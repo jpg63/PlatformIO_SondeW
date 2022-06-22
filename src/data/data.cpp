@@ -28,13 +28,12 @@
 
 extern ErrorManager errormanager;
 
-Data data;
-
+DataManagement dataApp;
 
 // https://github.com/G6EJD/Using-ESP8266-EEPROM/blob/master/ESP8266_Reading_and_Writing_EEPROM.ino
 
 
-void Data::init(void) {
+void DataManagement::init(void) {
 /*-------------------------------------------------*/
 /* Lecteur paramettre dans l'EEPROM                */
 /*-------------------------------------------------*/
@@ -123,7 +122,7 @@ void Data::init(void) {
 /* readEeproom                               */
 /*********************************************/
 
-void Data::readEeproom(void)
+void DataManagement::readEeproom(void)
 {
 //  EEPROM.begin(100);  //EEPROM.begin(Size)
   EEPROM.begin(300);  //EEPROM.begin(Size)
@@ -285,7 +284,7 @@ void Data::readEeproom(void)
 /* initEeproom                               */
 /*********************************************/
 
-void Data::initEeproom(void)
+void DataManagement::initEeproom(void)
 {
 
 	Serial.println("Init EEPROM");
@@ -463,8 +462,8 @@ void Data::initEeproom(void)
 /* EEPROMAnythingWrite                       */
 /*********************************************/
 
-// Write any data structure or variable to EEPROM
-int Data::EEPROMAnythingWrite(int pos, char *valeur, int longueur)
+// Write any Data structure or variable to EEPROM
+int DataManagement::EEPROMAnythingWrite(int pos, char *valeur, int longueur)
 {
   for (int i = 0; i < longueur; i++)
   {
@@ -479,7 +478,7 @@ int Data::EEPROMAnythingWrite(int pos, char *valeur, int longueur)
 /*********************************************/
  
 // Read any data structure or variable from EEPROM
-int Data::EEPROMAnythingRead(int pos, char *zeichen, int lenge)
+int DataManagement::EEPROMAnythingRead(int pos, char *zeichen, int lenge)
 {
   for (int i = 0; i < lenge; i++)
   {
@@ -493,7 +492,7 @@ int Data::EEPROMAnythingRead(int pos, char *zeichen, int lenge)
 /****************************************************/
 
 /*************************************************************/
-void Data::MesureMajTemp(float Mesure, int PosTableau) {
+void DataManagement::MesureMajTemp(float Mesure, int PosTableau) {
 /*************************************************************/
      
     float TmpCompensation;
@@ -531,7 +530,7 @@ void Data::MesureMajTemp(float Mesure, int PosTableau) {
   }
 
 /*************************************************************/
-  void Data::MesureMajHumidity(float Mesure, int PosTableau) {
+  void DataManagement::MesureMajHumidity(float Mesure, int PosTableau) {
 /*************************************************************/
 
    float TmpCompensation;
@@ -574,7 +573,7 @@ void Data::MesureMajTemp(float Mesure, int PosTableau) {
   
 
 /*************************************************************/
-void Data::MesureMajLight(float Mesure, int PosTableau) {
+void DataManagement::MesureMajLight(float Mesure, int PosTableau) {
 /*************************************************************/
 
    float TmpCompensation;
@@ -610,7 +609,7 @@ void Data::MesureMajLight(float Mesure, int PosTableau) {
 
 
 /*************************************************************/
-void Data::MesureMajPressure(float Mesure, int PosTableau) {
+void DataManagement::MesureMajPressure(float Mesure, int PosTableau) {
 /*************************************************************/
 
    float TmpCompensation;
@@ -648,7 +647,7 @@ void Data::MesureMajPressure(float Mesure, int PosTableau) {
 
 
 /*************************************************************/
-void Data::SaveEepromNbreboot(int Nbreboot) {
+void DataManagement::SaveEepromNbreboot(int Nbreboot) {
 /*************************************************************/
 
 /*  EEPROM.begin(100);  //EEPROM.begin(Size)

@@ -24,7 +24,7 @@
 
 #include "settings.h"
 
-class Data
+class DataManagement
 {
 
 public:
@@ -86,7 +86,7 @@ public:
 	int  EEPROMAnythingWrite(int pos, char *valeur, int longueur);
 	int  EEPROMAnythingRead(int pos, char *zeichen, int lenge);
 	void MesureMajTemp(float Mesure, int PosTableau);
-  void MesureMajHumidity(float Mesure, int PosTableau);
+    void MesureMajHumidity(float Mesure, int PosTableau);
 	void MesureMajLight(float Mesure, int PosTableau);
 	void MesureMajPressure(float Mesure, int PosTableau);
 	void SaveEepromNbreboot(int Nbreboot);
@@ -94,7 +94,7 @@ public:
 	void initEeproom(void);
 };
 
-extern Data data;
+extern DataManagement dataApp;
 
 
 #endif

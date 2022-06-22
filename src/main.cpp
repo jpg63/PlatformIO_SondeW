@@ -204,7 +204,7 @@
 //https://byfeel.info/wemos-ep8266-et-serveur-web-dynamique/
 //https://tutos-gameserver.fr/2019/10/12/comprendre-la-programmation-web-server-avec-le-code-arduino-%E2%80%A2-projets-diy-bien-choisir-son-serveur-d-impression/
 
-#include <Arduino.h>
+//#include <Arduino.h>
 
 #include <ArduinoOTA.h>
 
@@ -293,7 +293,7 @@ Adafruit_BMP085 bmp;
 RtcDS1307<TwoWire> Rtc(Wire);
 /* for normal hardware wire use above */
 
-const char data[] = "what time is it";
+const char dataTime[] = "what time is it";
 
 //
 //the hardware CS pin (10 on most Arduino boards,
@@ -326,15 +326,15 @@ void setup() {
   errormanager.Begin();
 
   webserver.init();
-  
-  data.init();
+
+  dataApp.init();
 
   char msgTopic[50];
   
   hardwaremanager.initScreen(VERSION);
   
 #ifdef DATALOGGER
-  FileName = String(data.CapteurName)+".CSV";
+  FileName = String(dataApp.CapteurName)+".CSV";
 #endif
 
   Serial.print("Version : ");
@@ -344,41 +344,41 @@ void setup() {
 //  Serial.println(floatingpoint_variable,7);
 //  Serial.println(integer_variable);
   Serial.print("Comptemp : " );
-  Serial.println(data.CompensationTemp);
+  Serial.println(dataApp.CompensationTemp);
   Serial.print("Comptemp2 : " );
-  Serial.println(data.CompensationTemp2);
+  Serial.println(dataApp.CompensationTemp2);
   Serial.print("Comptemp3 : " );
-  Serial.println(data.CompensationTemp3);
+  Serial.println(dataApp.CompensationTemp3);
   Serial.print("CompHumidite : " );
-  Serial.println(data.CompensationHumidity);
+  Serial.println(dataApp.CompensationHumidity);
   Serial.print("CompHumidite2 : " );
-  Serial.println(data.CompensationHumidity2);
+  Serial.println(dataApp.CompensationHumidity2);
   Serial.print("CompHumidite3 : " );
-  Serial.println(data.CompensationHumidity3);
+  Serial.println(dataApp.CompensationHumidity3);
   Serial.print("CompLight : " );
-  Serial.println(data.CompensationLight);
+  Serial.println(dataApp.CompensationLight);
   Serial.print("CompLight2 : " );
-  Serial.println(data.CompensationLight2);
+  Serial.println(dataApp.CompensationLight2);
   Serial.print("CompLight3 : " );
-  Serial.println(data.CompensationLight3);
+  Serial.println(dataApp.CompensationLight3);
   Serial.print("CompPressure : " );
-  Serial.println(data.CompensationPressure);
+  Serial.println(dataApp.CompensationPressure);
   Serial.print("CompPressure2 : " );
-  Serial.println(data.CompensationPressure2);
+  Serial.println(dataApp.CompensationPressure2);
   Serial.print("CompPressure2 : " );
-  Serial.println(data.CompensationPressure2);
+  Serial.println(dataApp.CompensationPressure2);
   Serial.print("TimeZone : " );
   Serial.println(webserver.timezone);
   Serial.print("SummerTime : " );
   Serial.println(webserver.summertime);
   Serial.print("Sonde Number : " );
-  Serial.println(data.sondeNumber);
+  Serial.println(dataApp.sondeNumber);
   Serial.print("Sonde ID : " );
-  Serial.println(data.CapteurID);
+  Serial.println(dataApp.CapteurID);
 
   Serial.flush();*/
 
-  data.readEeproom();
+  dataApp.readEeproom();
   
   delay(1000);
 
@@ -562,109 +562,109 @@ int nbcapteurhumi = 1;
 int nbcapteurligh = 1;
 int nbcapteurpres = 1;
 
-strcpy(data.CapteurList,"Capteur : ");
+strcpy(dataApp.CapteurList,"Capteur : ");
 
 #ifdef SENSOR_SHT30
     Serial.println("Init SHT30");
     Serial.print("nbcapteur : ");
-    Serial.println(data.nbcapteur);
+    Serial.println(dataApp.nbcapteur);
     
-    strcpy(data.CapteurType,"SHT30");
-    if (strlen(data.CapteurList) < 11)  strcat(data.CapteurList,"SHT30");
-    else                                strcat(data.CapteurList,",SHT30");
+    strcpy(dataApp.CapteurType,"SHT30");
+    if (strlen(dataApp.CapteurList) < 11)  strcat(dataApp.CapteurList,"SHT30");
+    else                                strcat(dataApp.CapteurList,",SHT30");
 
-    strcpy(data.Tableaufifo[data.nbcapteur].CapteurType,"SHT30");
-    data.Tableaufifo[data.nbcapteur].Model = MODEL_SENSOR_SHT30;   
-    data.Tableaufifo[data.nbcapteur].Type = TYPE_CAPTEURTEMP;
-    data.Tableaufifo[data.nbcapteur].NumCapteur = nbcapteurtemp++;
-    strcpy(data.Tableaufifo[data.nbcapteur].Text,"T:");
-    data.nbcapteur++;
+    strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].CapteurType,"SHT30");
+    dataApp.Tableaufifo[dataApp.nbcapteur].Model = MODEL_SENSOR_SHT30;   
+    dataApp.Tableaufifo[dataApp.nbcapteur].Type = TYPE_CAPTEURTEMP;
+    dataApp.Tableaufifo[dataApp.nbcapteur].NumCapteur = nbcapteurtemp++;
+    strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"T:");
+    dataApp.nbcapteur++;
     
-    strcpy(data.Tableaufifo[data.nbcapteur].CapteurType,"SHT30");
-    data.Tableaufifo[data.nbcapteur].Model = MODEL_SENSOR_SHT30;
-    data.Tableaufifo[data.nbcapteur].Type = TYPE_CAPTEURHUMI;
-    data.Tableaufifo[data.nbcapteur].NumCapteur = nbcapteurhumi++;
-    strcpy(data.Tableaufifo[data.nbcapteur].Text,"H:");
-    data.nbcapteur++;
+    strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].CapteurType,"SHT30");
+    dataApp.Tableaufifo[dataApp.nbcapteur].Model = MODEL_SENSOR_SHT30;
+    dataApp.Tableaufifo[dataApp.nbcapteur].Type = TYPE_CAPTEURHUMI;
+    dataApp.Tableaufifo[dataApp.nbcapteur].NumCapteur = nbcapteurhumi++;
+    strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"H:");
+    dataApp.nbcapteur++;
 #endif  
 
 #ifdef SENSOR_DHT12
     Serial.println("Init DHT12");
     Serial.print("nbcapteur : ");
-    Serial.println(data.nbcapteur);
+    Serial.println(dataApp.nbcapteur);
 
-    strcpy(data.CapteurType,"DHT12");
-    if (strlen(data.CapteurList) < 11)  strcat(data.CapteurList,"DHT12");
-    else                                strcat(data.CapteurList,",DHT12");
+    strcpy(dataApp.CapteurType,"DHT12");
+    if (strlen(dataApp.CapteurList) < 11)  strcat(dataApp.CapteurList,"DHT12");
+    else                                strcat(dataApp.CapteurList,",DHT12");
     
-    strcpy(data.Tableaufifo[data.nbcapteur].CapteurType,"DHT12");
-    data.Tableaufifo[data.nbcapteur].Model = MODEL_SENSOR_DHT12;     
-    data.Tableaufifo[data.nbcapteur].Type = TYPE_CAPTEURTEMP;
-    if (nbcapteurtemp == 1)      strcpy(data.Tableaufifo[data.nbcapteur].Text,"T:");
-    else if (nbcapteurtemp == 2) strcpy(data.Tableaufifo[data.nbcapteur].Text,"T2:");
-    else                         strcpy(data.Tableaufifo[data.nbcapteur].Text,"T3:");
-    data.Tableaufifo[data.nbcapteur].NumCapteur = nbcapteurtemp++;
-    data.nbcapteur++;
+    strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].CapteurType,"DHT12");
+    dataApp.Tableaufifo[dataApp.nbcapteur].Model = MODEL_SENSOR_DHT12;     
+    dataApp.Tableaufifo[dataApp.nbcapteur].Type = TYPE_CAPTEURTEMP;
+    if (nbcapteurtemp == 1)      strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"T:");
+    else if (nbcapteurtemp == 2) strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"T2:");
+    else                         strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"T3:");
+    dataApp.Tableaufifo[dataApp.nbcapteur].NumCapteur = nbcapteurtemp++;
+    dataApp.nbcapteur++;
     
-    strcpy(data.Tableaufifo[data.nbcapteur].CapteurType,"DHT12");
-    data.Tableaufifo[data.nbcapteur].Model = MODEL_SENSOR_DHT12;     
-    data.Tableaufifo[data.nbcapteur].Type = TYPE_CAPTEURHUMI;
-    if (nbcapteurhumi == 1)      strcpy(data.Tableaufifo[data.nbcapteur].Text,"H:");
-    else if (nbcapteurhumi == 2) strcpy(data.Tableaufifo[data.nbcapteur].Text,"H2:");
-    else                         strcpy(data.Tableaufifo[data.nbcapteur].Text,"H3:");
-    data.Tableaufifo[data.nbcapteur].NumCapteur = nbcapteurhumi++;
-    data.nbcapteur++;
+    strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].CapteurType,"DHT12");
+    dataApp.Tableaufifo[dataApp.nbcapteur].Model = MODEL_SENSOR_DHT12;     
+    dataApp.Tableaufifo[dataApp.nbcapteur].Type = TYPE_CAPTEURHUMI;
+    if (nbcapteurhumi == 1)      strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"H:");
+    else if (nbcapteurhumi == 2) strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"H2:");
+    else                         strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"H3:");
+    dataApp.Tableaufifo[dataApp.nbcapteur].NumCapteur = nbcapteurhumi++;
+    dataApp.nbcapteur++;
     
 #endif  
 
 #ifdef SENSOR_DHT11
     Serial.println("Init DHT11");
     Serial.print("nbcapteur : ");
-    Serial.println(data.nbcapteur);
+    Serial.println(dataApp.nbcapteur);
 
-    strcpy(data.CapteurType,"DHT11");
-    if (strlen(data.CapteurList) < 11) strcat(data.CapteurList,"DHT11");
-    else                               strcat(data.CapteurList,",DHT11");
+    strcpy(dataApp.CapteurType,"DHT11");
+    if (strlen(dataApp.CapteurList) < 11) strcat(dataApp.CapteurList,"DHT11");
+    else                               strcat(dataApp.CapteurList,",DHT11");
 
-    strcpy(data.Tableaufifo[data.nbcapteur].CapteurType,"DHT11");
-    data.Tableaufifo[data.nbcapteur].Model = MODEL_SENSOR_DHT11;        
-    data.Tableaufifo[data.nbcapteur].Type = TYPE_CAPTEURTEMP;
-    if (nbcapteurtemp == 1)      strcpy(data.Tableaufifo[data.nbcapteur].Text,"T:");
-    else if (nbcapteurtemp == 2) strcpy(data.Tableaufifo[data.nbcapteur].Text,"T2:");
-    else                         strcpy(data.Tableaufifo[data.nbcapteur].Text,"T3:");
-    data.Tableaufifo[data.nbcapteur].NumCapteur = nbcapteurtemp++;
-    data.nbcapteur++;
+    strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].CapteurType,"DHT11");
+    dataApp.Tableaufifo[dataApp.nbcapteur].Model = MODEL_SENSOR_DHT11;        
+    dataApp.Tableaufifo[dataApp.nbcapteur].Type = TYPE_CAPTEURTEMP;
+    if (nbcapteurtemp == 1)      strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"T:");
+    else if (nbcapteurtemp == 2) strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"T2:");
+    else                         strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"T3:");
+    dataApp.Tableaufifo[dataApp.nbcapteur].NumCapteur = nbcapteurtemp++;
+    dataApp.nbcapteur++;
     
-    strcpy(data.Tableaufifo[data.nbcapteur].CapteurType,"DHT11");
-    data.Tableaufifo[data.nbcapteur].Model = MODEL_SENSOR_DHT11;     
-    data.Tableaufifo[data.nbcapteur].Type = TYPE_CAPTEURHUMI;
-    if (nbcapteurhumi == 1)      strcpy(data.Tableaufifo[data.nbcapteur].Text,"H:");
-    else if (nbcapteurhumi == 2) strcpy(data.Tableaufifo[data.nbcapteur].Text,"H2:");
-    else                         strcpy(data.Tableaufifo[data.nbcapteur].Text,"H3:");
-    data.Tableaufifo[data.nbcapteur].NumCapteur = nbcapteurhumi++;
-    data.nbcapteur++;
+    strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].CapteurType,"DHT11");
+    dataApp.Tableaufifo[dataApp.nbcapteur].Model = MODEL_SENSOR_DHT11;     
+    dataApp.Tableaufifo[dataApp.nbcapteur].Type = TYPE_CAPTEURHUMI;
+    if (nbcapteurhumi == 1)      strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"H:");
+    else if (nbcapteurhumi == 2) strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"H2:");
+    else                         strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"H3:");
+    dataApp.Tableaufifo[dataApp.nbcapteur].NumCapteur = nbcapteurhumi++;
+    dataApp.nbcapteur++;
 #endif  
 
 #ifdef SENSOR_DHT21
     Serial.println("Init DHT21");
     Serial.print("nbcapteur : ");
-    Serial.println(data.nbcapteur);
+    Serial.println(dataApp.nbcapteur);
 
     strcpy(CapteurType,"DHT21");
-    if (strlen(data.CapteurList) < 11)  strcat(data.CapteurList,"DHT21");
-    else                                strcat(data.CapteurList,",DHT21");
+    if (strlen(dataApp.CapteurList) < 11)  strcat(dataApp.CapteurList,"DHT21");
+    else                                strcat(dataApp.CapteurList,",DHT21");
 
-    strcpy(data.Tableaufifo[data.nbcapteur].CapteurType,"DHT21");
-    data.Tableaufifo[data.nbcapteur].Model = MODEL_SENSOR_DHT21;           
-    Tableaufifo[data.nbcapteur].Type = TYPE_CAPTEURTEMP;
-    if (nbcapteurtemp == 1)      strcpy(data.Tableaufifo[data.nbcapteur].Text,"T:");
-    else if (nbcapteurtemp == 2) strcpy(data.Tableaufifo[data.nbcapteur].Text,"T2:");
-    else                         strcpy(data.Tableaufifo[data.nbcapteur].Text,"T3:");
-    data.Tableaufifo[data.nbcapteur].NumCapteur = nbcapteurtemp++;
-    data.nbcapteur++;
+    strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].CapteurType,"DHT21");
+    dataApp.Tableaufifo[dataApp.nbcapteur].Model = MODEL_SENSOR_DHT21;           
+    Tableaufifo[dataApp.nbcapteur].Type = TYPE_CAPTEURTEMP;
+    if (nbcapteurtemp == 1)      strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"T:");
+    else if (nbcapteurtemp == 2) strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"T2:");
+    else                         strcpy(dataApp.Tableaufifo[dataApp.nbcapteur].Text,"T3:");
+    dataApp.Tableaufifo[dataApp.nbcapteur].NumCapteur = nbcapteurtemp++;
+    dataApp.nbcapteur++;
     
-    strcpy(data.Tableaufifo[nbcapteur].CapteurType,"DHT21");
-    data.Tableaufifo[data.nbcapteur].Model = MODEL_SENSOR_DHT21;        
+    strcpy(dataApp.Tableaufifo[nbcapteur].CapteurType,"DHT21");
+    dataApp.Tableaufifo[dataApp.nbcapteur].Model = MODEL_SENSOR_DHT21;        
     Tableaufifo[nbcapteur].Type = TYPE_CAPTEURHUMI;
     if (nbcapteurhumi == 1)      strcpy(Tableaufifo[nbcapteur].Text,"H:");
     else if (nbcapteurhumi == 2) strcpy(Tableaufifo[nbcapteur].Text,"H2:");
@@ -837,7 +837,7 @@ boolean affichecapteur = true;
 #endif  
 
   strcpy(msgTopic,"CPT");
-  strcat(msgTopic,data.CapteurID);
+  strcat(msgTopic,dataApp.CapteurID);
   display.println(msgTopic);  
 
   display.display();
@@ -851,7 +851,7 @@ boolean affichecapteur = true;
 
 //Gestion enregistrement sur Carte SD et de l'horloge interne
 
-#ifdef DATALOGGER
+#ifdef dataAppLOGGER
 
     //--------RTC SETUP ------------
     // if you are using ESP-01 then uncomment the line below to reset the pins to
@@ -890,7 +890,7 @@ boolean affichecapteur = true;
 /* comment out on a second run to see that the info is stored long term */
     // Store something in memory on the RTC
     Rtc.SetMemory(0, 13);
-    uint8_t written = Rtc.SetMemory(13, (const uint8_t*)data, sizeof(data) - 1); // remove the null terminator strings add
+    uint8_t written = Rtc.SetMemory(13, (const uint8_t*)dataApp, sizeof(dataApp) - 1); // remove the null terminator strings add
     Rtc.SetMemory(1, written);
 /* end of comment out section */
 
@@ -1103,12 +1103,12 @@ void loop() {
     
   //Mesures
   
-  data.compteurMesure++;
+  dataApp.compteurMesure++;
   int compteurPosTableau=0;
   Serial.print("nbcapteur : ");
-  Serial.println(data.nbcapteur);
+  Serial.println(dataApp.nbcapteur);
   
-  while(compteurPosTableau < data.nbcapteur) {
+  while(compteurPosTableau < dataApp.nbcapteur) {
     
     float Mesure;
   
@@ -1116,9 +1116,9 @@ void loop() {
     Serial.print("compteurPosTableau : ");
     Serial.println(compteurPosTableau);
     Serial.print("Model : ");
-    Serial.println(data.Tableaufifo[compteurPosTableau].Model);
+    Serial.println(dataApp.Tableaufifo[compteurPosTableau].Model);
     
-    if (data.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_SHT30) 
+    if (dataApp.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_SHT30) 
       {
        Serial.println("read Data SHT30");
   
@@ -1126,31 +1126,31 @@ void loop() {
        if(sht30.get()==0)
          {
            Mesure = sht30.cTemp;
-           data.MesureMajTemp(Mesure, compteurPosTableau++);
+           dataApp.MesureMajTemp(Mesure, compteurPosTableau++);
   
            Mesure    = sht30.humidity;
-           data.MesureMajHumidity(Mesure, compteurPosTableau); 
+           dataApp.MesureMajHumidity(Mesure, compteurPosTableau); 
          }
          else {
            Serial.println("Error SHT30!");
            errormanager.SetErrorCapteur();
-           data.Tableaufifo[compteurPosTableau++].Value   = 999;
+           dataApp.Tableaufifo[compteurPosTableau++].Value   = 999;
          }
  #endif
       }   
-      else if (data.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_DHT11) 
+      else if (dataApp.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_DHT11) 
         { 
           Serial.println("read Data DHT11");
   
   #ifdef SENSOR_DHT11
           Mesure = dht.readTemperature();
-          data.MesureMajTemp(Mesure, compteurPosTableau++);
+          dataApp.MesureMajTemp(Mesure, compteurPosTableau++);
   
           Mesure = dht.readHumidity();
-          data.MesureMajHumidity(Mesure, compteurPosTableau);
+          dataApp.MesureMajHumidity(Mesure, compteurPosTableau);
   #endif
         }
-       else if (data.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_DHT21) {
+       else if (dataApp.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_DHT21) {
          Serial.println("read Data DHT21");
   
   #ifdef SENSOR_DHT21
@@ -1161,7 +1161,7 @@ void loop() {
          MesureMajHumidity(Mesure, compteurPosTableau);
   #endif
        }
-       else if (data.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_DHT22) {
+       else if (dataApp.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_DHT22) {
          Serial.println("read Data DHT22");
   
   #ifdef SENSOR_DHT22
@@ -1175,52 +1175,52 @@ void loop() {
          MesureMajHumidity(Mesure, compteurPosTableau);
   #endif
        }
-       else if (data.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_DHT12) {
+       else if (dataApp.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_DHT12) {
          Serial.println("read Data DHT12");
   
   #ifdef SENSOR_DHT12
         if(dht.get()==0){
           Mesure = dht.cTemp;
           Serial.println(Mesure);
-          data.MesureMajTemp(Mesure, compteurPosTableau++);
+          dataApp.MesureMajTemp(Mesure, compteurPosTableau++);
   
           Mesure = dht.humidity;
           Serial.println(Mesure);
-          data.MesureMajHumidity(Mesure, compteurPosTableau);
+          dataApp.MesureMajHumidity(Mesure, compteurPosTableau);
         }
         else {
            Serial.println("Error DHT12!");
            errormanager.SetErrorCapteur();
-           data.Tableaufifo[compteurPosTableau++].Value   = 999;
+           dataApp.Tableaufifo[compteurPosTableau++].Value   = 999;
         }
   #endif
        }
-      else if (data.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_DS18B20) {
+      else if (dataApp.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_DS18B20) {
          Serial.println("read Data DS18B20");
   
   #ifdef SENSOR_DS18B20
          sensors.requestTemperatures(); 
          Mesure = sensors.getTempCByIndex(0);
-         data.MesureMajTemp(Mesure, compteurPosTableau);
+         dataApp.MesureMajTemp(Mesure, compteurPosTableau);
   #endif
        }
-       else if (data.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_BH1750) {
+       else if (dataApp.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_BH1750) {
         Serial.println("read Data BH1750");
   #ifdef SENSOR_BH1750
   
          Mesure = lightMeter.readLightLevel();
-         data.MesureMajLight(Mesure, compteurPosTableau);
+         dataApp.MesureMajLight(Mesure, compteurPosTableau);
   #endif
        }
-       else if (data.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_BMP180) {
+       else if (dataApp.Tableaufifo[compteurPosTableau].Model == MODEL_SENSOR_BMP180) {
          Serial.println("read Data BMP180");
   
   #ifdef SENSOR_BMP180
          Mesure = bmp.readTemperature();
-         data.MesureMajTemp(Mesure, compteurPosTableau++);
+         dataApp.MesureMajTemp(Mesure, compteurPosTableau++);
   
          Mesure = bmp.readPressure() / 100;
-         data.MesureMajPressure(Mesure, compteurPosTableau);
+         dataApp.MesureMajPressure(Mesure, compteurPosTableau);
   #endif
        }
   
@@ -1273,13 +1273,13 @@ void loop() {
    
   //Gestion de l'Ã©cran OLED
   
-  if (data.compteurMesure >= NB_MESURE) {
+  if (dataApp.compteurMesure >= NB_MESURE) {
   
     Serial.println("Affichage");
-    Serial.println(data.compteurMesure);
+    Serial.println(dataApp.compteurMesure);
   
-    for (int i=0;i<data.nbcapteur;i++) {
-      data.Tableaufifo[i].SensorReading += data.Tableaufifo[i].SumValue/data.compteurMesure;
+    for (int i=0;i<dataApp.nbcapteur;i++) {
+      dataApp.Tableaufifo[i].SensorReading += dataApp.Tableaufifo[i].SumValue/dataApp.compteurMesure;
     }
   /*#ifdef DATATEMP
        sensorReading1 += TempValue/compteurMesure;
@@ -1312,23 +1312,23 @@ void loop() {
 //int compteuraff = 0;
   int compteurrot = 0;
 
-  while ((compteurrot < 2) && (compteurrot < data.nbcapteur))
+  while ((compteurrot < 2) && (compteurrot < dataApp.nbcapteur))
     {
-     switch (data.Tableaufifo[data.FifoPos+compteurrot].Type) {
+     switch (dataApp.Tableaufifo[dataApp.FifoPos+compteurrot].Type) {
     
        case TYPE_CAPTEURTEMP :
          display.setTextSize(1);
-         display.println(data.Tableaufifo[data.FifoPos+compteurrot].Text);
+         display.println(dataApp.Tableaufifo[dataApp.FifoPos+compteurrot].Text);
          display.setTextSize(2);
-         display.println(data.Tableaufifo[data.FifoPos+compteurrot].SumValue/data.compteurMesure);  
+         display.println(dataApp.Tableaufifo[dataApp.FifoPos+compteurrot].SumValue/dataApp.compteurMesure);  
          break;
        case TYPE_CAPTEURHUMI :
        case TYPE_CAPTEURLIGH :
        case TYPE_CAPTEURPRES :
          display.setTextSize(1);
-         display.println(data.Tableaufifo[data.FifoPos+compteurrot].Text);
+         display.println(dataApp.Tableaufifo[dataApp.FifoPos+compteurrot].Text);
          display.setTextSize(2);
-         display.println(int(data.Tableaufifo[data.FifoPos+compteurrot].SumValue/data.compteurMesure));  
+         display.println(int(dataApp.Tableaufifo[dataApp.FifoPos+compteurrot].SumValue/dataApp.compteurMesure));  
          break;
        default:
          break;
@@ -1337,18 +1337,18 @@ void loop() {
      compteurrot++; 
     }
 
-    data.FifoPos++;
-    if (data.FifoPos+1 >= data.nbcapteur) data.FifoPos = 0;
+    dataApp.FifoPos++;
+    if (dataApp.FifoPos+1 >= dataApp.nbcapteur) dataApp.FifoPos = 0;
 
 #endif
 
-    for (int i=0; i<data.nbcapteur; i++) data.Tableaufifo[i].SumValue = 0; 
+    for (int i=0; i<dataApp.nbcapteur; i++) dataApp.Tableaufifo[i].SumValue = 0; 
     //float TempValue;
     //TempValue = 0;
-    data.HumidityValue = 0;
-    data.LightValue = 0;
-    data.PressureValue = 0;
-    data.compteurMesure = 0;
+    dataApp.HumidityValue = 0;
+    dataApp.LightValue = 0;
+    dataApp.PressureValue = 0;
+    dataApp.compteurMesure = 0;
     webserver.compteurMqtt++;
   }
 
@@ -1379,8 +1379,8 @@ if (webserver.compteurMqtt >= COMPTEUR_MQTT) {
   sensorReading2 = sensorReading2 / compteurMqtt;
   sensorReading3 = sensorReading3 / compteurMqtt;
   sensorReading4 = sensorReading4 / compteurMqtt;*/
- for (int i=0;i<data.nbcapteur;i++) {
-    data.Tableaufifo[i].SensorReading = data.Tableaufifo[i].SensorReading / webserver.compteurMqtt;
+ for (int i=0;i<dataApp.nbcapteur;i++) {
+    dataApp.Tableaufifo[i].SensorReading = dataApp.Tableaufifo[i].SensorReading / webserver.compteurMqtt;
   }
 
   webserver.compteurMqtt = 0;
@@ -1418,7 +1418,7 @@ if (webserver.compteurMqtt >= COMPTEUR_MQTT) {
         uint8_t gotten = Rtc.GetMemory(address, buff, count);
 
         if (gotten != count ||
-            count != sizeof(data) - 1) // remove the extra null terminator strings add
+            count != sizeof(dataApp) - 1) // remove the extra null terminator strings add
         {
             Serial.print("something didn't match, count = ");
             Serial.print(count, DEC);
@@ -1438,19 +1438,19 @@ if (webserver.compteurMqtt >= COMPTEUR_MQTT) {
     } 
 #endif
 
-    for (int i=0;i<data.nbcapteur;i++) {
+    for (int i=0;i<dataApp.nbcapteur;i++) {
       Serial.println("Boucle capteur");
-      switch (data.Tableaufifo[i].Type) {
+      switch (dataApp.Tableaufifo[i].Type) {
     
       case TYPE_CAPTEURTEMP :
-        if (!isnan(data.Tableaufifo[i].SensorReading)) {
-          sprintf (data.msgTemperature, "%5.2lf", data.Tableaufifo[i].SensorReading);
+        if (!isnan(dataApp.Tableaufifo[i].SensorReading)) {
+          sprintf (dataApp.msgTemperature, "%5.2lf", dataApp.Tableaufifo[i].SensorReading);
           /* publish the message */
 
           strcpy(msgTopic,TOPIC);
-          strcat(msgTopic,data.CapteurID);
-          if (data.Tableaufifo[i].NumCapteur == 1)      strcat(msgTopic,TEMP_TOPIC);
-          else if (data.Tableaufifo[i].NumCapteur == 2) strcat(msgTopic,TEMP2_TOPIC);
+          strcat(msgTopic,dataApp.CapteurID);
+          if (dataApp.Tableaufifo[i].NumCapteur == 1)      strcat(msgTopic,TEMP_TOPIC);
+          else if (dataApp.Tableaufifo[i].NumCapteur == 2) strcat(msgTopic,TEMP2_TOPIC);
           else                                          strcat(msgTopic,TEMP3_TOPIC);
 
           Serial.print("MsgTopic : ");
@@ -1459,65 +1459,65 @@ if (webserver.compteurMqtt >= COMPTEUR_MQTT) {
           if ((webserver.wificonnected) && (webserver.mqtt_enable)) {
             if (client.connected())  {
               Serial.println("Envoi au serveur MQTT");
-              client.publish(msgTopic, data.msgTemperature);
+              client.publish(msgTopic, dataApp.msgTemperature);
             }
           }
           Serial.print("Mqtt Temperature : ");
-          Serial.println(data.msgTemperature);
+          Serial.println(dataApp.msgTemperature);
           Serial.flush();
         }       
         break;
       case TYPE_CAPTEURHUMI :
-        if (!isnan(data.Tableaufifo[i].SensorReading)) {
-          sprintf (data.msgHumidite, "%2.0lf", data.Tableaufifo[i].SensorReading);
+        if (!isnan(dataApp.Tableaufifo[i].SensorReading)) {
+          sprintf (dataApp.msgHumidite, "%2.0lf", dataApp.Tableaufifo[i].SensorReading);
           strcpy(msgTopic,TOPIC);
-          strcat(msgTopic,data.CapteurID);
-          if (data.Tableaufifo[i].NumCapteur == 1)      strcat(msgTopic,HYDRO_TOPIC);
-          else if (data.Tableaufifo[i].NumCapteur == 2) strcat(msgTopic,HYDRO2_TOPIC);
+          strcat(msgTopic,dataApp.CapteurID);
+          if (dataApp.Tableaufifo[i].NumCapteur == 1)      strcat(msgTopic,HYDRO_TOPIC);
+          else if (dataApp.Tableaufifo[i].NumCapteur == 2) strcat(msgTopic,HYDRO2_TOPIC);
           else                                          strcat(msgTopic,HYDRO3_TOPIC);
 
           /* publish the message */
           if ((webserver.wificonnected) && (webserver.mqtt_enable)) {
-            if (client.connected()) client.publish(msgTopic, data.msgHumidite);
+            if (client.connected()) client.publish(msgTopic, dataApp.msgHumidite);
           }
           Serial.print("Mqtt HumiditÃ© : ");
-          Serial.println(data.msgHumidite);      
+          Serial.println(dataApp.msgHumidite);      
         }        
         break;
       case TYPE_CAPTEURLIGH :
-        if (!isnan(data.Tableaufifo[i].SensorReading)) {
-          sprintf (data.msgLight, "%i", data.Tableaufifo[i].SensorReading);
+        if (!isnan(dataApp.Tableaufifo[i].SensorReading)) {
+          sprintf (dataApp.msgLight, "%i", dataApp.Tableaufifo[i].SensorReading);
           /* publish the message */
           strcpy(msgTopic,TOPIC);
-          strcat(msgTopic,data.CapteurID);
-          if (data.Tableaufifo[i].NumCapteur == 1)      strcat(msgTopic,LIGHT_TOPIC);
-          else if (data.Tableaufifo[i].NumCapteur == 2) strcat(msgTopic,LIGHT2_TOPIC);
+          strcat(msgTopic,dataApp.CapteurID);
+          if (dataApp.Tableaufifo[i].NumCapteur == 1)      strcat(msgTopic,LIGHT_TOPIC);
+          else if (dataApp.Tableaufifo[i].NumCapteur == 2) strcat(msgTopic,LIGHT2_TOPIC);
           else                                          strcat(msgTopic,LIGHT3_TOPIC);
   
           if ((webserver.wificonnected) && (webserver.mqtt_enable)) {
-            if (client.connected())  client.publish(msgTopic, data.msgLight);
+            if (client.connected())  client.publish(msgTopic, dataApp.msgLight);
           }
           Serial.print("Mqtt Light : ");
-          Serial.println(data.msgLight);
+          Serial.println(dataApp.msgLight);
           Serial.flush();
         }
         break;
       case TYPE_CAPTEURPRES :
-        if (!isnan(data.Tableaufifo[i].SensorReading)) {
-          sprintf (data.msgPressure, "%i", data.Tableaufifo[i].SensorReading);
+        if (!isnan(dataApp.Tableaufifo[i].SensorReading)) {
+          sprintf (dataApp.msgPressure, "%i", dataApp.Tableaufifo[i].SensorReading);
           /* publish the message */
 
           strcpy(msgTopic,TOPIC);
-          strcat(msgTopic,data.CapteurID);
-          if (data.Tableaufifo[i].NumCapteur == 1)      strcat(msgTopic,PRESSURE_TOPIC);
-          else if (data.Tableaufifo[i].NumCapteur == 2) strcat(msgTopic,PRESSURE2_TOPIC);
+          strcat(msgTopic,dataApp.CapteurID);
+          if (dataApp.Tableaufifo[i].NumCapteur == 1)      strcat(msgTopic,PRESSURE_TOPIC);
+          else if (dataApp.Tableaufifo[i].NumCapteur == 2) strcat(msgTopic,PRESSURE2_TOPIC);
           else                                          strcat(msgTopic,PRESSURE3_TOPIC);
  
           if ((webserver.wificonnected) && (webserver.mqtt_enable)) {
-            if (client.connected())  client.publish(msgTopic, data.msgPressure);
+            if (client.connected())  client.publish(msgTopic, dataApp.msgPressure);
           }
           Serial.print("Mqtt Pressure : ");
-          Serial.println(data.msgPressure);
+          Serial.println(dataApp.msgPressure);
           Serial.flush();
         }      
         break;
@@ -1529,7 +1529,7 @@ if (webserver.compteurMqtt >= COMPTEUR_MQTT) {
      /* publish the message */
 
    strcpy(msgTopic,TOPIC);
-   strcat(msgTopic,data.CapteurID);
+   strcat(msgTopic,dataApp.CapteurID);
    strcat(msgTopic,IP_TOPIC);
 
    if ((webserver.wificonnected) && (webserver.mqtt_enable)) {
@@ -1540,7 +1540,7 @@ if (webserver.compteurMqtt >= COMPTEUR_MQTT) {
   Serial.println(webserver.adresseip);
 
   strcpy(msgTopic,TOPIC);
-  strcat(msgTopic,data.CapteurID);
+  strcat(msgTopic,dataApp.CapteurID);
   strcat(msgTopic,TIME_TOPIC);
 
   if ((webserver.wificonnected) && (webserver.mqtt_enable)) {
@@ -1550,7 +1550,7 @@ if (webserver.compteurMqtt >= COMPTEUR_MQTT) {
   Serial.println(webserver.timemesure);
 
   strcpy(msgTopic,TOPIC);
-  strcat(msgTopic,data.CapteurID);
+  strcat(msgTopic,dataApp.CapteurID);
   strcat(msgTopic,VERSION_TOPIC);
 
   if ((webserver.wificonnected) && (webserver.mqtt_enable)) {
@@ -1582,13 +1582,13 @@ if (webserver.compteurMqtt >= COMPTEUR_MQTT) {
      dataString = String(datestring1) + "," + String(datestring2);
 #endif
 
-    for (int i=0;i<data.nbcapteur;i++) {
+    for (int i=0;i<dataApp.nbcapteur;i++) {
 
 #ifdef DATALOGGER
-       dataString += "," + String(data.Tableaufifo[i].SensorReading);
+       dataString += "," + String(dataApp.Tableaufifo[i].SensorReading);
 #endif
 
-      data.Tableaufifo[i].SensorReading = 0.00;
+      dataApp.Tableaufifo[i].SensorReading = 0.00;
 /*      sensorReading1 = 0.00; 
       sensorReading2 = 0.00; 
       sensorReading3 = 0.00; 
